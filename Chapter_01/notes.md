@@ -11,7 +11,7 @@ To create a nondefault superuser:
 
 ```bash
 # Connect as a superuser
-pgsql -U postgres
+psql -U postgres
 
 # Don't forget the closing ';'
 postgres=# CREATE USER <username> SUPERUSER;

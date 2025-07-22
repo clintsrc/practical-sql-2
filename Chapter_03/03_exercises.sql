@@ -42,6 +42,6 @@ SELECT
 FROM
   teachers
 WHERE
-  hire_date >= '01-01-2010'
+  hire_date >= '2010-01-01'
 ORDER BY
   salary DESC, last_name ASC;

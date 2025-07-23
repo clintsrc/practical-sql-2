@@ -80,7 +80,7 @@ WHERE column1 = value; -- use quotes for text: column1 = 'text value'
 
 NOTE: examples of other operators: <> (or !=), >=, IN, LIKE, BETWEEN
 
-(ref [https://www.postgresql.org/docs/6.3/c09.htm](https://www.postgresql.org/docs/6.3/c09.htm))
+(ref [Operators](https://www.postgresql.org/docs/6.3/c09.htm))
 
 BETWEEN: is inclusive, meaning it also includes the start and end range matches themselves. You may prefer to use the >= (etc) operators for better precision.
 

@@ -17,10 +17,12 @@ This chapter is more of an introduction dump for the various data types. Each ma
     - When exact calculations are required, use numeric (or decimal). Floats save space but are inexact
     - For smaller databases (not millions of records), lean towards larger: set the precision to be large enough to handle the digits on both sides of the decimal. Whole numbers: use bigint unless you're certain integer (or smallint) is sufficient.
 
+Data Dictionary: manual documentation for each field's data type and explains the purpose of the values.
+
 ## Type size limits and storage requirements
 
-- Numeric: [https://www.postgresql.org/docs/current/datatype-numeric.html](https://www.postgresql.org/docs/current/datatype-numeric.html)
-- Time: [https://www.postgresql.org/docs/current/datatype-datetime.html](https://www.postgresql.org/docs/current/datatype-datetime.html)
+- Numeric: [Numeric Types](https://www.postgresql.org/docs/current/datatype-numeric.html)
+- Time: [Date/Time Types](https://www.postgresql.org/docs/current/datatype-datetime.html)
 
 ## TEXT
 
@@ -122,7 +124,7 @@ CREATE TABLE date_time_types (
 
 ## JSON (JavaScript Object Notation)
 
-- Linter: [https://jsonlint.com](https://jsonlint.com)
+- Linter: [JSON Lint online](https://jsonlint.com)
 - JSON object values can be other JSON objects
 
 Example JSON object type:

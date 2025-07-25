@@ -26,3 +26,4 @@
  Will a column in your target table with data type numeric(3,8) work for these
  values? Why or why not?
  */
+ 

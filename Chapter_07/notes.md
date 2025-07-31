@@ -24,7 +24,6 @@ The CONSTRAINT keyword creates a rule (a constraint) for column/s, such as enfor
 
 A primary key is a special constraint that requires the column/s have unique, non-null values using the command: CONSTRAINT name PRIMARY KEY
 
-
 Example:
 
 ```SQL
@@ -126,5 +125,99 @@ ORDER BY district_2020.id;
 ```SQL
 SELECT *
 FROM district_2020 CROSS JOIN district_2035
+-- FROM district_2020, district_2035 -- alternative method (comma)
+-- FROM district_2020 JOIN district_2035 ON true -- alternative method (ON boolean)
 ORDER BY district_2020.id, district_2035.id;
 ```
+
+### NULL
+
+Represents missing data (not the same as 0 nor empty string '')
+
+```SQL
+SELECT *
+FROM district_2020 LEFT JOIN district_2035
+ON district_2020.id = district_2035.id
+-- WHERE district_2035.id IS NOT NULL -- filter on non-NULL
+WHERE district_2035.id IS NULL; -- filter on missing values (aka anti-join)
+```
+
+### Relationship Types (Relational Model)
+
+#### One-to-One (1:1)
+
+Each row in Table A is linked to exactly one row in Table B, and vice versa.
+
+Example: One person has one passport. One passport belongs to one person.
+
+#### One-to-Many (1:N)
+
+A single row in Table A can relate to many rows in Table B, but each row in Table B relates to only one row in Table A.
+
+Example: One author can write many books. Each book has one author.
+
+#### Many-to-Many (M:N)
+
+Rows in Table A can relate to many rows in Table B, and vice versa. This is typically modeled using a junction table.
+
+Example: Students can enroll in many courses, and each course can have many students.
+
+### Selecting Specific Columns
+
+To avoid ambiguity in the ```SELECT <column>, <column>``` clause, specify which specific table's column:
+
+```SQL
+SELECT <table1.columnA>, <table2.columnA>
+...
+```
+
+Use AS for helpful aliases:
+
+```SQL
+SELECT district_2020.id AS d20_id
+FROM district_2020;
+```
+
+Table Alias syntax example to simplify the code (more succinct):
+
+```SQL
+SELECT
+  d20.id,
+  d20.school_2020,
+  d35.school_2035
+FROM
+  district_2020 AS d20  -- d20 is shorter, more succinct
+  -- district_2020 d20  -- NOTE the AS is optional and this is also valid
+  LEFT JOIN district_2035 AS d35  -- and d35 here
+  ON d20.id = d35.id
+ORDER BY
+  d20.id;
+```
+
+### Join Multiple Tables
+
+You can link as many tables as you want as long as they have columns with matching values to join on (though there may be a vendor-specific hard limit)
+
+Here we have 3 tables with matching values. First:
+
+- district_2020.id
+
+And these tables are joined to that table's id field using their own matching id fields:
+
+- district_2020_enrollment.id
+- district_2020_grades.id
+
+```SQL
+SELECT d20.id,
+       d20.school_2020,
+       en.enrollment,
+       gr.grades
+FROM district_2020 AS d20 JOIN district_2020_enrollment AS en
+    ON d20.id = en.id
+JOIN district_2020_grades AS gr
+    ON d20.id = gr.id
+ORDER BY d20.id;
+```
+
+### Set Operators (to Combine Query Results)
+

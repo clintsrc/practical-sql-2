@@ -221,3 +221,73 @@ ORDER BY d20.id;
 
 ### Set Operators (to Combine Query Results)
 
+Set operators combine the results of multiple SELECT queries.
+
+#### ```UNION```
+
+Appends the rows of the second query to the rows of the first. Duplicates are removed, though ```UNION ALL``` will preserve the duplicates.
+
+```SQL
+SELECT * FROM district_2020
+UNION
+SELECT * FROM district_2035
+ORDER BY id;
+```
+
+Customized results with UNION, here showing all records (UNION ALL) with alias headings to indicate the table (year) each school is from.
+
+```SQL
+SELECT '2020' AS year,
+       school_2020 AS school
+FROM district_2020
+UNION ALL
+SELECT '2035' AS year,
+       school_2035
+FROM district_2035
+ORDER BY school, year;
+```
+
+#### ```INTERSECT```
+
+Return only rows that match in both queries. Duplicates are removed.
+
+```SQL
+SELECT * FROM district_2020
+INTERSECT
+SELECT * FROM district_2035
+ORDER BY id;
+```
+
+#### ```EXCEPT```
+
+Return only rows that exist in ('unique to') the first query but not in the second. Duplicates are removed.
+
+```SQL
+SELECT * FROM district_2020
+EXCEPT
+SELECT * FROM district_2035
+ORDER BY id;
+```
+
+### Math operations on Joined Table Columns
+
+Include the table name in the math operation.
+
+Full example with tablename.columname used in math operations:
+
+```SQL
+SELECT c2019.county_name,
+       c2019.state_name,
+       c2019.pop_est_2019 AS pop_2019,
+       c2010.estimates_base_2010 AS pop_2010,
+       c2019.pop_est_2019 - c2010.estimates_base_2010 AS raw_change,
+       -- Math operations use the joined table names:
+       --    (table1_name_alias.column_name - table2_name_alias.column_name) / table2_name_alias.column_name
+       round( (c2019.pop_est_2019::numeric - c2010.estimates_base_2010)
+           / c2010.estimates_base_2010 * 100, 1 ) AS pct_change
+FROM us_counties_pop_est_2019 AS c2019
+    JOIN us_counties_pop_est_2010 AS c2010
+ON c2019.state_fips = c2010.state_fips
+    AND c2019.county_fips = c2010.county_fips
+ORDER BY pct_change DESC;
+```
